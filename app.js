@@ -7,13 +7,15 @@ var ffmpeg = require('fluent-ffmpeg')
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath);
 const extractFrames = require('ffmpeg-extract-frames')
+const  multipart  =  require('connect-multiparty');
+const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' });
 
 
 
 const app = express();
 const port = 8000;
 
-app.get('/', async (req, res) => {
+app.get('/', multipartMiddleware , async (req, res) => {
     console.log("in");
 
 
@@ -104,8 +106,13 @@ videoshow(images, videoOptions)
   .on('end', function (output) {
     console.error('Video created in:', output)
   })
-  res.send('Hello World!')
+  // res.send('Hello World!')
 });
+res.json({
+  'statusCode':200,
+  'statusMessage':200,
+
+})
 });
 
 
